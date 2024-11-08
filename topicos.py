@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys 
 import time 
 import pandas as pd
+
 import pyautogui as pyag
 
 print("\n===== Programa Criador de Textos Automático =====")
@@ -14,6 +15,71 @@ quantidadeTopicos = int(input("\nQuantos tópicos terá esse texto?\n"))
 temasTopicos = [tema]
 finalizacaoCriada = False
 adicionarTitulo = True
+finalizacao = "Faca um pequeno texto de um parágrafo e sem titulo finalizando e concluindo um documento sobre o tema: {tema}. Detalhe: nao formate o texto, deixe apenas texto normal."
+finalizacao = "Faca um pequeno texto de um parágrafo e sem titulo finalizando e concluindo um documento sobre o tema: {tema}. Detalhe: nao formate o texto, deixe apenas texto normal."
+
+def usarChatGPT(pesquisa, titulo):
+    pyag.moveTo(x=704, y=1057)
+    pyag.click()
+    
+    if titulo == True:
+        pyag.moveTo(x=242, y=129)
+        pyag.click()
+        pyag.write("calibri light")
+        pyag.press('enter')
+        
+        pyag.moveTo(x=319, y=129)
+        pyag.click()
+        pyag.write("16")
+        pyag.press('enter')
+        
+        pyag.moveTo(x=639, y=1059)
+        pyag.click()
+        pyag.moveTo(x=691, y=960)
+        pyag.click()
+        pyag.write(f"faca um título bom para um texto sobre o tema: {tema}. Retorne apenas o título, sem formatacoes ou aspas.")
+        pyag.press('enter')
+        time.sleep(10)
+        pyag.moveTo(x=592, y=815)
+        pyag.click()
+        pyag.moveTo(x=704, y=1057)
+        pyag.click()
+        pyag.hotkey('ctrl', 'v')
+        
+        pyag.hotkey('ctrl', 'e')
+        pyag.press('enter')
+        pyag.press('enter')
+        
+        return False
+    
+    pyag.moveTo(x=639, y=1059)
+    pyag.click()
+    pyag.moveTo(x=691, y=960)
+    pyag.click()
+    pyag.write(pesquisa)
+    pyag.press('enter')
+    time.sleep(10)
+    pyag.moveTo(x=592, y=815)
+    pyag.click()
+    
+    pyag.moveTo(x=951, y=143)
+    pyag.click()
+    
+    pyag.moveTo(x=242, y=129)
+    pyag.click()
+    pyag.write("arial")
+    pyag.press('enter')
+        
+    pyag.moveTo(x=319, y=129)
+    pyag.click()
+    pyag.write("12")
+    pyag.press('enter')
+    
+    pyag.hotkey('ctrl', 'v')
+    pyag.hotkey('ctrl', 'j')
+    pyag.press('enter')
+    pyag.press('enter')
+    return False
 
 for i in range(quantidadeTopicos):
     temaTopico = (input(f"\nQual o tema do tópico {i + 1}?\n"))
@@ -24,58 +90,9 @@ for i in range(len(temasTopicos)):
     
     if i == 0:
         pesquisa = f"Faca um pequeno texto de um parágrafo e sem titulo iniciando um documento sobre o tema: {tema}. Detalhe: nao formate o texto, deixe apenas texto normal."
-    elif i == quantidadeTopicos + 1 and finalizacaoCriada == False:
-        pesquisa = f"Faca um pequeno texto de um parágrafo e sem titulo finalizando e concluindo um documento sobre o tema: {tema}. Detalhe: nao formate o texto, deixe apenas texto normal."
-        finalizacao = ""
-        temasTopicos.append(finalizacao)
-        finalizacaoCriada = True
     else:
         pesquisa = f"Faca um pequeno texto de um parágrafo e sem titulo sobre o tema: {tema}. Topico: {temasTopicos[i]}. Detalhe: nao formate o texto, deixe apenas texto normal."
 
-    pyag.moveTo(x=558, y=750)
-    pyag.click()
-    pyag.moveTo(x=498, y=675)
-    pyag.click()
-    pyag.write(pesquisa)
-    pyag.press('enter')
-    time.sleep(5)
-    pyag.moveTo(x=387, y=559)
-    pyag.click()
-    pyag.moveTo(x=704, y=750)
-    pyag.click()
-    
-    if adicionarTitulo == True:
-        pyag.moveTo(x=235, y=89)
-        pyag.click()
-        pyag.write("calibri light")
-        pyag.press('enter')
-        
-        pyag.moveTo(x=302, y=88)
-        pyag.click()
-        pyag.write("16")
-        pyag.press('enter')
-        
-        pyag.write(tema)
-        pyag.hotkey('ctrl', 'e')
-        pyag.press('enter')
-        pyag.press('enter')
-        
-        adicionarTitulo = False
-    
-    pyag.moveTo(x=729, y=102)
-    pyag.click()
-    
-    pyag.moveTo(x=235, y=89)
-    pyag.click()
-    pyag.write("arial")
-    pyag.press('enter')
-        
-    pyag.moveTo(x=302, y=88)
-    pyag.click()
-    pyag.write("12")
-    pyag.press('enter')
-    
-    pyag.hotkey('ctrl', 'v')
-    pyag.hotkey('ctrl', 'j')
-    pyag.press('enter')
-    pyag.press('enter')
+    adicionarTitulo = usarChatGPT(pesquisa, adicionarTitulo)
+
+usarChatGPT(finalizacao, adicionarTitulo)
